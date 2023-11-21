@@ -32,5 +32,21 @@ int main()
 	cin >> number2;
 	cout << endl;
 
+    switch (islem)
+	{
+	case '+':
+		result = (number1 + number2);
+		cout << "Toplamanin sonucu: " << result << endl; break;
+	case '-':
+		result = (number1 - number2);
+		cout << "Cikarmanin sonucu: " << result << endl; break;
+	case '*':
+		result = (number1 * number2);
+		cout << "Carpmanin sonucu: " << result << endl; break;
+	case '/':
+		result = (number1 / number2);
+		cout << "Bolmenin sonucu: " << result << endl; break;
+	}
+
     return 0;
 }
