@@ -1,52 +1,57 @@
+#include "calculator.h"
 #include <iostream>
 
 using namespace std;
-int main()
+
+int main() 
 {
-
-	cout << "******************************" << endl;
-	cout << "* *" << endl;
-	cout << "* HESAP MAKINESI *" << endl;
-	cout << "* *" << endl;
-	cout << "* Toplama Icin + kullaniniz *" << endl;
-	cout << "* Cikarma Icin - kullaniniz *" << endl;
-	cout << "* Carpma Icin * kullaniniz *" << endl;
-	cout << "* Bolme Icin / kullaniniz. *" << endl;
-	cout << "* *" << endl;
-	cout << "* *" << endl;
-	cout << "******************************" << endl;
-	cout << endl;
-
-	double number1, number2, result;
-	char islem;
-
-	cout << "Birinci sayiyi giriniz: ";
-	cin >> number1;
-	cout << endl;
-
-	cout << "Islemi giriniz: ";
-	cin >> islem;
-	cout << endl;
-
-	cout << "Ikinci sayiyi giriniz: ";
-	cin >> number2;
-	cout << endl;
-
-    switch (islem)
-	{
-	case '+':
-		result = (number1 + number2);
-		cout << "Toplamanin sonucu: " << result << endl; break;
-	case '-':
-		result = (number1 - number2);
-		cout << "Cikarmanin sonucu: " << result << endl; break;
-	case '*':
-		result = (number1 * number2);
-		cout << "Carpmanin sonucu: " << result << endl; break;
-	case '/':
-		result = (number1 / number2);
-		cout << "Bolmenin sonucu: " << result << endl; break;
-	}
-
+    char operation;
+    Calculator c; 
+    cout << "Enter + to Add 2 Numbers" << 
+            "\nEnter - to Subtract 2 Numbers" << 
+            "\nEnter * to Multiply 2 Numbers" << 
+            "\nEnter / to Divide 2 Numbers" << 
+            "\nEnter 0 To Exit\n";
+         
+    do
+    {
+        cout << "\nEnter Choice: ";
+        cin >> operation;
+        switch (operation)
+        {
+        case '+':
+             
+            // result function invoked
+            c.result();     
+             
+            // function to calculate summation
+            cout << "Result: " << 
+                     c.add() << endl; 
+            break;
+        case '-':
+             
+            // function to calculate subtraction
+            c.result();
+            cout << "Result: " << 
+                     c.sub() << endl; 
+            break;
+        case '*':
+            c.result();
+             
+            // function to calculate multiplication
+            cout << "Result: " << 
+                     c.mul() << endl; 
+            break;
+        case '/':
+            c.result();
+             
+            // function to calculate division
+            cout << "Result: " << 
+                     c.div() << endl; 
+            break;
+        }
+         
+    } while (operation == '+' || operation == '-' || operation == '*' || operation == '/');
+     
     return 0;
-}
+}		
