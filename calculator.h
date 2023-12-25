@@ -1,54 +1,50 @@
 #define CALCULATOR_H
-#pragma once
+
 #include <iostream>
 #include <math.h>
-using namespace std;
- 
-// Class Calculator 
-class Calculator
-{
-   float a, b;
+#include <memory>
+
+
+//Abstract base class for operation
+class Operation {
 public:
-   
-    //Function to receive 2 numbers from the user.
-    void result() 
-    {
-        cout << "Enter First Number: ";    
-        cin >> a;
-        cout << "Enter Second Number: ";   
-        cin >> b;
+    virtual double perform(double a, double b) const=0;
+    virtual ~Operation()=default; //Virtual destructor for polymorphic behaviour
+};
+
+class Addition : public Operation {
+public:
+    double perform(double a, double b) const override {
+        return a+b;
     }
-   
-    // Function to add two numbers
-    float add() 
-    {
-        return a + b;
+};
+
+class Subtraction : public Operation {
+public:
+    double perform(double a, double b) const override {
+        return a-b;
     }
-   
-    // Function to subtract two numbers
-    float sub() 
-    {
-        return a - b;
+};
+
+// Multiplication operation inheriting from Addition (for demonstration)
+class Multiplication : public Addition {
+public:
+    double perform(double a, double b) const override {
+        double result = 0;
+        for (int i=0; i<b; ++i) {
+            result = Addition::perform(result,a);
+        }
+        return result;
     }
-   
-    // Function to multiply two numbers
-    float mul() 
-    {
-        return a * b;
-    }
-   
-    // Function to divide two numbers
-    float div() 
-    {
-        if (b == 0) 
-        {
-            cout << "Division By Zero" << 
-                     endl;
+};
+
+class Division : public Operation {
+public:
+    double perform(double a, double b) const override {
+        if (b==0) {
+            std::cout << "Error: Division by zero is not allowed." << std::endl;
             return INFINITY;
         }
-        else
-        {
-            return a / b;
-        }
+        return a/b;
     }
 };
