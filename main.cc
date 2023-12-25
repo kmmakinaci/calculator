@@ -1,52 +1,56 @@
 #include <iostream>
 
-using namespace std;
-int main()
+int main() 
 {
+    std::unique_ptr<Operation> addition = std::make_unique<Addition>();
+    std::unique_ptr<Operation> substraction = std::make_unique<Subtraction>();
+    std::unique_ptr<Operation> multiplication = std::make_unique<Multiplication>();
+    std::unique_ptr<Operation> division = std::make_unique<Division>();
 
-	cout << "******************************" << endl;
-	cout << "* *" << endl;
-	cout << "* HESAP MAKINESI *" << endl;
-	cout << "* *" << endl;
-	cout << "* Toplama Icin + kullaniniz *" << endl;
-	cout << "* Cikarma Icin - kullaniniz *" << endl;
-	cout << "* Carpma Icin * kullaniniz *" << endl;
-	cout << "* Bolme Icin / kullaniniz. *" << endl;
-	cout << "* *" << endl;
-	cout << "* *" << endl;
-	cout << "******************************" << endl;
-	cout << endl;
+    double number1{}, number2{};
+    char operation{};
+    double result{};
 
-	double number1, number2, result;
-	char islem;
+    std::cout << "Enter + to Add 2 Numbers" << 
+            "\nEnter - to Subtract 2 Numbers" << 
+            "\nEnter * to Multiply 2 Numbers" << 
+            "\nEnter / to Divide 2 Numbers" << 
+            "\nEnter 0 To Exit\n";
 
-	cout << "Birinci sayiyi giriniz: ";
-	cin >> number1;
-	cout << endl;
+    do {
+        std::cout << "\nEnter Choice: ";
+        std::cin >> operation;
 
-	cout << "Islemi giriniz: ";
-	cin >> islem;
-	cout << endl;
+        if(operation =='0')
+            return 0;
 
-	cout << "Ikinci sayiyi giriniz: ";
-	cin >> number2;
-	cout << endl;
+        std::cout << "Enter First Number: ";
+        std::cin >> number1;
 
-    switch (islem)
-	{
-	case '+':
-		result = (number1 + number2);
-		cout << "Toplamanin sonucu: " << result << endl; break;
-	case '-':
-		result = (number1 - number2);
-		cout << "Cikarmanin sonucu: " << result << endl; break;
-	case '*':
-		result = (number1 * number2);
-		cout << "Carpmanin sonucu: " << result << endl; break;
-	case '/':
-		result = (number1 / number2);
-		cout << "Bolmenin sonucu: " << result << endl; break;
-	}
+        std::cout << "Enter Second Number: ";
+        std::cin >> number2;
+
+
+        switch(operation) {
+            case '+':
+                result = addition->perform(number1, number2);
+                break;
+            case '-':
+                result = substraction->perform(number1, number2);
+                break;
+            case '*':
+                result = multiplication->perform(number1, number2);
+                break;
+            case '/':
+                result = division->perform(number1,number2);
+                break;
+            default:
+                std::cout << "Invalid operator!" << std::endl;
+                return 1; //Exiting with an error code
+        }
+
+        std::cout << "Result:" << result << std::endl;
+    } while (operation == '+' || operation == '-' || operation == '*' || operation == '/');
 
     return 0;
-}
+}		
