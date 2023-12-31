@@ -1,5 +1,4 @@
-#ifndef OPERATION_H
-#define OPERATION_H
+#define CALCULATOR_H
 
 #include <iostream>
 #include <math.h>
@@ -49,5 +48,3 @@ public:
         return a/b;
     }
 };
-
-#endif //OPERATION_H

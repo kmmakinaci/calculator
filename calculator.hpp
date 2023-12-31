@@ -1,22 +1,19 @@
-#ifndef CALCULATOR_H
-#define CALCULATOR_H
-
 #include <iostream>
 #include <memory>
-#include <map>
 #include <functional>
 #include "operation.hpp"
 
 // Calculator class responsible for performing calculations
 class Calculator {
 private:
-    std::map<char, std::function<std::unique_ptr<Operation>()>> operationCreators;
+    std::function<std::unique_ptr<Operation>()> createOperation;
 
 public:
-    explicit Calculator(std::map<char, std::function<std::unique_ptr<Operation>()>> opCreators);
+    explicit Calculator(std::function<std::unique_ptr<Operation>()> operationCreator)
+        : createOperation(std::move(operationCreator)) {}
 
-    void getInput(double& a, double& b, char& operation) const;
-    std::unique_ptr<Operation> createOperation(char operation) const;
-    void performCalculation() const;
+    double calculate(char operation, double a, double b) const {
+        std::unique_ptr<Operation> op = createOperation();
+        return op->perform(a, b);
+    }
 };
-#endif //CALCULATOR_H
