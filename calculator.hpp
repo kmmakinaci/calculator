@@ -1,3 +1,6 @@
+#ifndef CALCULATOR_H
+#define CALCULATOR_H
+
 #include <iostream>
 #include <memory>
 #include <functional>
@@ -9,11 +12,11 @@ private:
     std::function<std::unique_ptr<Operation>()> createOperation;
 
 public:
-    explicit Calculator(std::function<std::unique_ptr<Operation>()> operationCreator)
-        : createOperation(std::move(operationCreator)) {}
+    explicit Calculator(std::function<std::unique_ptr<Operation>()> operationCreator);
 
-    double calculate(char operation, double a, double b) const {
-        std::unique_ptr<Operation> op = createOperation();
-        return op->perform(a, b);
-    }
+    std::pair<double, double> getUserInput() const;
+
+    double calculate(double a, double b) const;
 };
+
+#endif
