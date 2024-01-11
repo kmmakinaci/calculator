@@ -1,19 +1,8 @@
+#include <tuple>
 #include "calculator.hpp"
-#include <iostream>
+#include "calculator.cc"  // Include the implementation file
 
-int main() 
-{
-    auto additionCreator = []() { return std::make_unique<Addition>(); };
-    auto subtractionCreator = []() { return std::make_unique<Subtraction>(); };
-    auto multiplicationCreator = []() { return std::make_unique<Multiplication>(); };
-    auto divisionCreator = []() { return std::make_unique<Division>(); };
-
-    Calculator calculatorAddition(additionCreator);
-    Calculator calculatorSubtraction(subtractionCreator);
-    Calculator calculatorMultiplication(multiplicationCreator);
-    Calculator calculatorDivision(divisionCreator);
-
-    double number1, number2;
+int main() {
     char operation;
 
     std::cout << "Enter + to Add 2 Numbers"
@@ -29,30 +18,18 @@ int main()
         if (operation == '0')
             return 0;
 
-        std::cout << "Enter First Number: ";
-        std::cin >> number1;
+        auto operationCreator = OperationSelector::getOperationCreator(operation);
 
-        std::cout << "Enter Second Number: ";
-        std::cin >> number2;
+        if (!operationCreator)
+            continue;
 
-        double result;
-        switch (operation) {
-            case '+':
-                result = calculatorAddition.calculate(operation, number1, number2);
-                break;
-            case '-':
-                result = calculatorSubtraction.calculate(operation, number1, number2);
-                break;
-            case '*':
-                result = calculatorMultiplication.calculate(operation, number1, number2);
-                break;
-            case '/':
-                result = calculatorDivision.calculate(operation, number1, number2);
-                break;
-            default:
-                std::cout << "Invalid operator!" << std::endl;
-                break;
-        }
+        Calculator calculator(operationCreator);
+
+        auto userInput = calculator.getUserInput();
+        double number1 = userInput.first;
+        double number2 = userInput.second;
+
+        double result = calculator.calculate(number1, number2);
 
         std::cout << "Result: " << result << std::endl;
 
