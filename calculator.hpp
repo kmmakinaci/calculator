@@ -6,7 +6,6 @@
 #include <functional>
 #include "operation.hpp"
 
-// Calculator class responsible for performing calculations
 class Calculator {
 private:
     std::function<std::unique_ptr<Operation>()> createOperation;
@@ -14,9 +13,13 @@ private:
 public:
     explicit Calculator(std::function<std::unique_ptr<Operation>()> operationCreator);
 
-    std::pair<double, double> getUserInput() const;
+    void setOperationCreator(std::function<std::unique_ptr<Operation>()> operationCreator);
+
+    std::pair<double, char> getUserInput() const;
 
     double calculate(double a, double b) const;
+
+    void runCalculator();  // Updated prototype
 };
 
 #endif
