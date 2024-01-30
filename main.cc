@@ -1,39 +1,22 @@
-#include <tuple>
+#include <iostream>
 #include "calculator.hpp"
-#include "calculator.cc"  // Include the implementation file
+#include "operationselector.hpp"  // Include the operation selector
+#include "calculator.cc"
 
 int main() {
-    char operation;
+    Calculator calculator(OperationSelector::getOperationCreator('+'));  // Specify start operator
 
-    std::cout << "Enter + to Add 2 Numbers"
-              << "\nEnter - to Subtract 2 Numbers"
-              << "\nEnter * to Multiply 2 Numbers"
-              << "\nEnter / to Divide 2 Numbers"
-              << "\nEnter 0 To Exit\n";
+    while (true) {
+        calculator.runCalculator();  // Starting number is obtained from the user
 
-    do {
-        std::cout << "\nEnter Choice: ";
-        std::cin >> operation;
+        std::cout << "Do you want to perform more calculations? (y/n): ";
+        char choice;
+        std::cin >> choice;
 
-        if (operation == '0')
-            return 0;
-
-        auto operationCreator = OperationSelector::getOperationCreator(operation);
-
-        if (!operationCreator)
-            continue;
-
-        Calculator calculator(operationCreator);
-
-        auto userInput = calculator.getUserInput();
-        double number1 = userInput.first;
-        double number2 = userInput.second;
-
-        double result = calculator.calculate(number1, number2);
-
-        std::cout << "Result: " << result << std::endl;
-
-    } while (operation == '+' || operation == '-' || operation == '*' || operation == '/');
+        if (choice != 'y' && choice != 'Y') {
+            break;
+        }
+    }
 
     return 0;
 }
