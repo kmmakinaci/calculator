@@ -6,17 +6,19 @@
 #include <map>
 #include <functional>
 #include "operation.hpp"
+#include "infix_postfix.hpp"
 
 // Calculator class responsible for performing calculations
 class Calculator {
-private:
-    std::map<char, std::function<std::unique_ptr<Operation>()>> operationCreators;
-
 public:
     explicit Calculator(std::map<char, std::function<std::unique_ptr<Operation>()>> opCreators);
 
-    void getInput(double& a, double& b, char& operation) const;
+    void getInput(std::string& expression) const;
     std::unique_ptr<Operation> createOperation(char operation) const;
     void performCalculation() const;
+
+private:
+    std::map<char, std::function<std::unique_ptr<Operation>()>> operationCreators;
 };
+
 #endif //CALCULATOR_H

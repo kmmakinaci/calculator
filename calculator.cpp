@@ -1,18 +1,12 @@
 #include "calculator.hpp"
+#include <iostream>
 
 Calculator::Calculator(std::map<char, std::function<std::unique_ptr<Operation>()>> opCreators)
     : operationCreators(std::move(opCreators)) {}
 
-void Calculator::getInput(double &a, double &b, char &operation) const
-{
-    std::cout << "Enter First Number: ";
-    std::cin >> a;
-
-    std::cout << "Enter Second Number: ";
-    std::cin >> b;
-
-    std::cout << "Enter Operator (+, -, *, /): ";
-    std::cin >> operation;
+void Calculator::getInput(std::string& expression) const {
+    std::cout << "Enter the mathematical expression (e.g., 2 + 3 * 4): ";
+    std::getline(std::cin, expression);
 }
 
 std::unique_ptr<Operation> Calculator::createOperation(char operation) const {
@@ -24,24 +18,23 @@ std::unique_ptr<Operation> Calculator::createOperation(char operation) const {
 }
 
 void Calculator::performCalculation() const {
-    double a, b;
-    char operation;
+    std::string expression;
 
     do {
-        getInput(a, b, operation);
+        getInput(expression);
 
-        if (operation == '0') {
+        if (expression == "0") {
             std::cout << "Exiting...\n";
             break;
         }
 
         try {
-            std::unique_ptr<Operation> op = createOperation(operation);
-            double result = op->perform(a, b);
+            std::string postfix = infixToPostfix(expression);
+            double result = evaluatePostfix(postfix);
             std::cout << "Result: " << result << std::endl;
         } catch (const std::exception &e) {
             std::cout << e.what() << std::endl;
         }
 
-    } while (operation != '0');
+    } while (expression != "0");
 }
