@@ -8,10 +8,20 @@ set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 # Add executable
-add_executable(calculator main.cpp calculator.cpp infix_postfix.cpp)
+add_executable(calculator main.cpp Calculator.cpp InfixPostfix.cpp)
 
 # Include directories
 target_include_directories(calculator PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # You might need to link additional libraries if needed
 # target_link_libraries(calculator <library_name>)
+
+# Add clang-format target
+add_custom_target(
+    clang-format
+    COMMAND clang-format
+        -style=file
+        -i
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/*.hpp
+)

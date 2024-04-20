@@ -1,7 +1,7 @@
 #include <iostream>
 #include <map>
-#include "calculator.hpp"
-#include "operation.hpp"
+#include "Calculator.hpp"
+#include "Operation.hpp"
 
 int main() 
 {
