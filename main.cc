@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include "calculator.hpp"
 #include "operationselector.hpp"  // Include the operation selector
 #include "calculator.cc"
@@ -18,5 +18,60 @@ int main() {
         }
     }
 
+    return 0;
+}*/
+/*
+#include <iostream>
+#include "calculator.hpp"
+#include "operationselector.hpp"  // Include the operation selector
+
+int main() {
+    Calculator calculator(OperationSelector::getOperationCreator('+'));  // Specify start operator
+
+    while (true) {
+        calculator.runCalculator();  // Starting number is obtained from the user
+
+        std::cout << "Do you want to perform more calculations? (y/n): ";
+        char choice;
+        std::cin >> choice;
+
+        if (choice != 'y' && choice != 'Y') {
+            break;
+        }
+    }
+
+    return 0;
+}
+
+*/
+/*
+#include <iostream>
+#include "calculator.hpp"
+#include "operationselector.hpp"
+
+int main() {
+    Calculator calculator(OperationSelector::getOperationCreator('+'));  // Specify start operator
+
+    while (true) {
+        calculator.runCalculator();  // Starting number is obtained from the user
+
+        std::cout << "Do you want to perform more calculations? (y/n): ";
+        char choice;
+        std::cin >> choice;
+
+        if (choice != 'y' && choice != 'Y') {
+            break;
+        }
+    }
+
+    return 0;
+}*/
+
+#include <iostream>
+#include "calculator.hpp"
+
+int main() {
+    Calculator calculator;
+    calculator.runCalculator();
     return 0;
 }
