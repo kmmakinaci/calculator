@@ -162,8 +162,9 @@ void Calculator::runCalculator() {
     result = values.top();
     std::cout << "Result: " << result << std::endl;
 }*/
-
+/*
 #include "calculator.hpp"
+
 
 double Calculator::calculate(double a, double b, char op) const {
     switch (op) {
@@ -225,5 +226,110 @@ void Calculator::runCalculator() {
 
     if (!values.empty()) {
         std::cout << "Result: " << values.top() << std::endl;
+    }
+}
+*/
+
+#include "calculator.hpp"
+#include <cctype>
+#include <sstream>
+
+double Calculator::calculate(double a, double b, char op) const {
+    switch (op) {
+        case '+':
+            return a + b;
+        case '-':
+            return a - b;
+        case '*':
+            return a * b;
+        case '/':
+            if (b == 0) {
+                std::cout << "Error: Division by zero is not allowed." << std::endl;
+                return INFINITY;
+            }
+            return a / b;
+        default:
+            std::cout << "Invalid operator!" << std::endl;
+            return 0;
+    }
+}
+
+int Calculator::precedence(char op) const {
+    if (op == '*' || op == '/') return 2;
+    if (op == '+' || op == '-') return 1;
+    return 0;
+}
+
+void Calculator::runCalculator() {
+    std::cout << "Enter expression: ";
+    std::string expression;
+    std::cin >> expression;
+
+    bool expectingNumber = true;
+
+    for (size_t i = 0; i < expression.length(); ++i) {
+        char currentChar = expression[i];
+        if (isdigit(currentChar)) {
+            double num = currentChar - '0';
+            while (i + 1 < expression.length() && isdigit(expression[i + 1])) {
+                num = num * 10 + (expression[i + 1] - '0');
+                ++i;
+            }
+            values.push(num);
+            expectingNumber = false;
+        } else if (currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/') {
+            if (expectingNumber && (currentChar == '+' || currentChar == '-')) {
+                // Handle leading + or - signs
+                if (i + 1 < expression.length() && isdigit(expression[i + 1])) {
+                    ++i;
+                    double num = expression[i] - '0';
+                    while (i + 1 < expression.length() && isdigit(expression[i + 1])) {
+                        num = num * 10 + (expression[i + 1] - '0');
+                        ++i;
+                    }
+                    if (currentChar == '-') {
+                        num = -num;
+                    }
+                    values.push(num);
+                    expectingNumber = false;
+                    continue;
+                } else {
+                    std::cout << "Error: Invalid expression." << std::endl;
+                    return;
+                }
+            }
+            while (!ops.empty() && precedence(ops.top()) >= precedence(currentChar)) {
+                if (values.size() < 2) {
+                    std::cout << "Error: Invalid expression." << std::endl;
+                    return;
+                }
+                double b = values.top(); values.pop();
+                double a = values.top(); values.pop();
+                char op = ops.top(); ops.pop();
+                values.push(calculate(a, b, op));
+            }
+            ops.push(currentChar);
+            expectingNumber = true;
+        } else {
+            std::cout << "Error: Invalid character in expression." << std::endl;
+            return;
+        }
+    }
+
+    while (!ops.empty()) {
+        if (values.size() < 2) {
+            std::cout << "Error: Invalid expression." << std::endl;
+            return;
+        }
+        double b = values.top(); values.pop();
+        double a = values.top(); values.pop();
+        char op = ops.top(); ops.pop();
+        values.push(calculate(a, b, op));
+    }
+
+    if (!values.empty()) {
+        std::cout << "Result: " << values.top() << std::endl;
+    } else {
+        std::cout << "Error: Invalid expression." << std::endl;
     }
 }
